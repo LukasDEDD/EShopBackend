@@ -13,17 +13,21 @@ public class Order {
   OrderStatus status;
   BigDecimal totalPrice;
   LocalDateTime createdAt;
+  Integer quantity;
+  BigDecimal unitPrice;
 
   public Order() {
   }
 
-  public Order(Long id, User user, List<OrderItem> items, OrderStatus status, BigDecimal totalPrice, LocalDateTime createdAt) {
+  public Order(Long id, User user, List<OrderItem> items, OrderStatus status, BigDecimal totalPrice, LocalDateTime createdAt, Integer quantity, BigDecimal unitPrice) {
     this.id = id;
     this.user = user;
     this.items = items;
     this.status = status;
     this.totalPrice = totalPrice;
     this.createdAt = createdAt;
+    this.quantity = quantity;
+    this.unitPrice = unitPrice;
   }
 
   public Long getId() {
@@ -59,7 +63,8 @@ public class Order {
   }
 
   public BigDecimal getTotalPrice() {
-    return totalPrice;
+
+    return unitPrice.multiply(BigDecimal.valueOf(quantity));
   }
 
   public void setTotalPrice(BigDecimal totalPrice) {
@@ -96,6 +101,8 @@ public class Order {
       ", status=" + status +
       ", totalPrice=" + totalPrice +
       ", createdAt=" + createdAt +
+      ", quantity=" + quantity +
+      ", unitPrice=" + unitPrice +
       '}';
   }
 }

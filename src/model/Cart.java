@@ -12,16 +12,20 @@ public class Cart {
   List<CartItem> items;
   BigDecimal totalPrice;
   LocalDateTime updatedAt;
+  Integer quantity;
+  BigDecimal unitPrice;
 
   public Cart() {
   }
 
-  public Cart(Long id, User user, List<CartItem> items, BigDecimal totalPrice, LocalDateTime updatedAt) {
+  public Cart(Long id, User user, List<CartItem> items, BigDecimal totalPrice, LocalDateTime updatedAt, Integer quantity, BigDecimal unitPrice) {
     this.id = id;
     this.user = user;
     this.items = items;
     this.totalPrice = totalPrice;
     this.updatedAt = updatedAt;
+    this.quantity = quantity;
+    this.unitPrice = unitPrice;
   }
 
   public Long getId() {
@@ -49,7 +53,7 @@ public class Cart {
   }
 
   public BigDecimal getTotalPrice() {
-    return totalPrice;
+    return unitPrice.multiply(BigDecimal.valueOf(quantity));
   }
 
   public void setTotalPrice(BigDecimal totalPrice) {
@@ -62,6 +66,22 @@ public class Cart {
 
   public void setUpdatedAt(LocalDateTime updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public Integer getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
+  }
+
+  public BigDecimal getUnitPrice() {
+    return unitPrice;
+  }
+
+  public void setUnitPrice(BigDecimal unitPrice) {
+    this.unitPrice = unitPrice;
   }
 
   @Override
@@ -85,6 +105,8 @@ public class Cart {
       ", items=" + items +
       ", totalPrice=" + totalPrice +
       ", updatedAt=" + updatedAt +
+      ", quantity=" + quantity +
+      ", unitPrice=" + unitPrice +
       '}';
   }
 }
