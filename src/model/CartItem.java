@@ -6,6 +6,7 @@ import java.util.Objects;
 public class CartItem {
 
   Long id;
+  Long cartId;
   Product product;
   Integer quantity;
   BigDecimal unitPrice;
@@ -14,8 +15,9 @@ public class CartItem {
   public CartItem() {
   }
 
-  public CartItem(Long id, Product product, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
+  public CartItem(Long id, Long cartId, Product product, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
     this.id = id;
+    this.cartId = cartId;
     this.product = product;
     this.quantity = quantity;
     this.unitPrice = unitPrice;
@@ -61,6 +63,13 @@ public class CartItem {
 
   public void setTotalPrice(BigDecimal totalPrice) {
     this.totalPrice = totalPrice;
+  }
+  public Long getCartId() {
+    return cartId;
+  }
+
+  public void setCartId(Long cartId) {
+    this.cartId = cartId;
   }
 
   @Override
