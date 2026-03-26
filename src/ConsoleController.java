@@ -1,3 +1,6 @@
+import exceptions.BusinessLogicException;
+import exceptions.EShopException;
+import exceptions.EntityNotFoundException;
 import model.Cart;
 import model.Order;
 import services.OrderService;
@@ -105,10 +108,20 @@ public class ConsoleController {
       long cartId = Long.parseLong(scanner.nextLine());
       Order newOrder = orderService.checkout(cartId);
       System.out.println("Checkout successful! Order #" + newOrder.getId() + " has been created.");
-    } catch (NumberFormatException e) {
-      System.out.println("Error: Invalid ID format.");
-    } catch (RuntimeException e) {
-      System.out.println("Checkout failed: " + e.getMessage());
+    }  catch (NumberFormatException e) {
+    System.out.println("Error: Invalid ID format. Please enter a number.");
+  } catch (EntityNotFoundException e) {
+    // Hláška, když košík v JSONu prostě není
+    System.out.println("Not Found: " + e.getMessage());
+  } catch (BusinessLogicException e) {
+    // Hláška, když je košík prázdný nebo nesplňuje pravidla
+    System.out.println("Validation Error: " + e.getMessage());
+  } catch (EShopException e) {
+    // Obecná chyba tvé aplikace
+    System.out.println("Application Error: " + e.getMessage());
+  } catch (Exception e) {
+    // Totální selhání (např. chyba disku nebo Gsonu)
+    System.out.println("System Failure: An unexpected error occurred.");
     }
   }
 }
