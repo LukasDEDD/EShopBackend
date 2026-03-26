@@ -18,18 +18,22 @@ public class OrderService {
   }
 
   public List<Order> getAllOrder() {
+
     return orderRepository.findAll();
   }
 
   public List<Cart> getAllFromCart() {
+
     return cartRepository.findAll();
   }
 
   public Order getOrderById(long id) {
+
     return orderRepository.findById(id);
   }
 
   public Cart getCartById(long id) {
+
     return cartRepository.findById(id);
   }
 

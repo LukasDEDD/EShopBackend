@@ -29,58 +29,72 @@ public class Cart {
   }
 
   public Long getId() {
+
     return id;
   }
 
   public void setId(Long id) {
+
     this.id = id;
   }
 
   public User getUser() {
+
     return user;
   }
 
   public void setUser(User user) {
+
     this.user = user;
   }
 
   public List<CartItem> getItems() {
+
     return items;
   }
 
   public void setItems(List<CartItem> items) {
+
     this.items = items;
   }
 
   public BigDecimal getTotalPrice() {
+
     return unitPrice.multiply(BigDecimal.valueOf(quantity));
   }
 
   public void setTotalPrice(BigDecimal totalPrice) {
+
     this.totalPrice = totalPrice;
   }
 
   public LocalDateTime getUpdatedAt() {
+
     return updatedAt;
   }
 
   public void setUpdatedAt(LocalDateTime updatedAt) {
+
     this.updatedAt = updatedAt;
   }
 
   public Integer getQuantity() {
+
     return quantity;
   }
 
   public void setQuantity(Integer quantity) {
+
     this.quantity = quantity;
   }
 
   public BigDecimal getUnitPrice() {
+
     return unitPrice;
   }
 
   public void setUnitPrice(BigDecimal unitPrice) {
+
     this.unitPrice = unitPrice;
   }
 
