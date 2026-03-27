@@ -82,7 +82,7 @@ void getAllOrder_returnListFromRepository() {
 
     assertNotNull(result);
     assertEquals(orderId, result.getId());
-    verify(orderRepository, times(1)).findById(orderId); // Ověříme, že metoda byla zavolána
+    verify(orderRepository, times(1)).findById(orderId);
   }
 
   @Test
@@ -112,7 +112,7 @@ void getAllOrder_returnListFromRepository() {
 
     assertNotNull(result);
     assertEquals(cartId, result.getId());
-    verify(cartRepository, times(1)).findById(cartId); // Ověříme, že metoda byla zavolána
+    verify(cartRepository, times(1)).findById(cartId);
   }
 
   @Test
@@ -197,7 +197,7 @@ void getAllOrder_returnListFromRepository() {
     assertNotNull(result);
 
     assertEquals(model.OrderStatus.CREATED, result.getStatus());
-    assertTrue(mockCart.getItems().isEmpty(), "Košík musí být prázdný");
+    assertTrue(mockCart.getItems().isEmpty(), "The Cart must be empty");
 
     verify(orderRepository).save(any(Order.class));
     verify(cartRepository).save(mockCart);
