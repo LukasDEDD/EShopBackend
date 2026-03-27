@@ -2,11 +2,10 @@ package repositories.file;
 
 import com.google.gson.reflect.TypeToken;
 import model.Cart;
-import model.CartItem;
 import repositories.CartRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class FileCartRepository extends AbstractFileRepository<Cart> implements CartRepository {
   public FileCartRepository(String filePath) {

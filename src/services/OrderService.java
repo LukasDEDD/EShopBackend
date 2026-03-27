@@ -39,7 +39,7 @@ public class OrderService {
 
     if (cart == null) {
 
-      throw new EntityNotFoundException("Košík s ID " + id + " neexistuje!");
+      throw new EntityNotFoundException("Cart with ID " + id + " No exist!");
     }
 
     return cart;
@@ -81,6 +81,7 @@ public class OrderService {
     Order order = new Order();
     order.setUser(cart.getUser());
 
+    
     order.setTotalPrice(cart.getTotalPrice());
     order.setCreatedAt(java.time.LocalDateTime.now());
     order.setStatus(model.OrderStatus.CREATED);
@@ -92,4 +93,7 @@ public class OrderService {
 
     return order;
   }
+
+
+
 }
