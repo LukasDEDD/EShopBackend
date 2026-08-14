@@ -1,8 +1,5 @@
 package repositories;
 
-import model.CartItem;
-import model.User;
-
 import java.util.List;
 
 

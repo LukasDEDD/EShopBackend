@@ -1,25 +1,26 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
-public class OrderItem {
+public class CartItem {
 
   Long id;
-  String productName;
-  BigDecimal unitPrice;
+  Long cartId;
+  Product product;
   Integer quantity;
+  BigDecimal unitPrice;
   BigDecimal totalPrice;
 
-  public OrderItem() {
+  public CartItem() {
   }
 
-  public OrderItem(BigDecimal totalPrice, Integer quantity, BigDecimal unitPrice, String productName, Long id) {
-    this.totalPrice = totalPrice;
+  public CartItem(Long id, Long cartId, Product product, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
+    this.id = id;
+    this.cartId = cartId;
+    this.product = product;
     this.quantity = quantity;
     this.unitPrice = unitPrice;
-    this.productName = productName;
-    this.id = id;
+    this.totalPrice = totalPrice;
   }
 
   public Long getId() {
@@ -30,20 +31,12 @@ public class OrderItem {
     this.id = id;
   }
 
-  public String getProductName() {
-    return productName;
+  public Product getProduct() {
+    return product;
   }
 
-  public void setProductName(String productName) {
-    this.productName = productName;
-  }
-
-  public BigDecimal getUnitPrice() {
-    return unitPrice;
-  }
-
-  public void setUnitPrice(BigDecimal unitPrice) {
-    this.unitPrice = unitPrice;
+  public void setProduct(Product product) {
+    this.product = product;
   }
 
   public Integer getQuantity() {
@@ -54,12 +47,28 @@ public class OrderItem {
     this.quantity = quantity;
   }
 
+  public BigDecimal getUnitPrice() {
+    return unitPrice;
+  }
+
+  public void setUnitPrice(BigDecimal unitPrice) {
+    this.unitPrice = unitPrice;
+  }
+
   public BigDecimal getTotalPrice() {
-    return totalPrice;
+
+    return unitPrice.multiply(BigDecimal.valueOf(quantity));
   }
 
   public void setTotalPrice(BigDecimal totalPrice) {
     this.totalPrice = totalPrice;
+  }
+  public Long getCartId() {
+    return cartId;
+  }
+
+  public void setCartId(Long cartId) {
+    this.cartId = cartId;
   }
 
   @Override
@@ -77,11 +86,11 @@ public class OrderItem {
 
   @Override
   public String toString() {
-    return "OrderItem{" +
+    return "CartItem{" +
       "id=" + id +
-      ", productName='" + productName + '\'' +
-      ", unitPrice=" + unitPrice +
+      ", product=" + product +
       ", quantity=" + quantity +
+      ", unitPrice=" + unitPrice +
       ", totalPrice=" + totalPrice +
       '}';
   }
