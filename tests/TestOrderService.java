@@ -3,7 +3,6 @@ import exceptions.EntityNotFoundException;
 import model.Cart;
 import model.CartItem;
 import model.Order;
-import model.OrderStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,11 +12,9 @@ import repositories.CartRepository;
 import repositories.OrderRepository;
 import services.OrderService;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -75,6 +72,7 @@ void getAllOrder_returnListFromRepository() {
     long orderId = 1L;
     Order mockOrder = new Order();
     mockOrder.setId(orderId);
+
 
     when(orderRepository.findById(orderId)).thenReturn(mockOrder);;
 

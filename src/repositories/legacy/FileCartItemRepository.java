@@ -1,4 +1,4 @@
-package repositories.file;
+package repositories.legacy;
 
 import com.google.gson.reflect.TypeToken;
 import model.CartItem;
