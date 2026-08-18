@@ -1,0 +1,74 @@
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: EShopBackend
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d EShopBackend"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build and Test
+        working-directory: ./EShopBackend
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/EShopBackend
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.POSTGRES_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        run: mvn clean verify
+
+      - name: SpotBugs scan
+        working-directory: ./EShopBackend
+        run: mvn spotbugs:spotbugs
+
+      - name: Log in to Docker Hub
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
+        working-directory: ./EShopBackend
+        run: docker build -t EShopBackend-app .
+
+
+      - name: Push Docker image to Docker Hub
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          docker tag EShopBackend-app ${{ secrets.DOCKERHUB_USERNAME }}/EShopBackend-app:latest
+
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/EShopBackend-app:latest
+
+
+      
+
+
+
+
+
