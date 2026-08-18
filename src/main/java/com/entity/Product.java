@@ -1,33 +1,44 @@
 package com.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-
+@Table(name = "products")
 public class Product {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long id;
+  private Long id;
 
-  String name;
-  String description;
-  BigDecimal price;
-  Integer stock;
-  String category;
-  LocalDateTime createdAt;
-  LocalDateTime updatedAt;
+  private String name;
+
+  private String description;
+
+  private BigDecimal price;
+
+  private Integer stock;
+
+  private String category;
+
+  private LocalDateTime createdAt;
+
+  private LocalDateTime updatedAt;
 
   public Product() {
   }
 
-  public Product(Long id, String name, String description, BigDecimal price, Integer stock, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public Product(Long id,
+                 String name,
+                 String description,
+                 BigDecimal price,
+                 Integer stock,
+                 String category,
+                 LocalDateTime createdAt,
+                 LocalDateTime updatedAt) {
+
     this.id = id;
     this.name = name;
     this.description = description;
@@ -104,10 +115,15 @@ public class Product {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof User)) return false;
-    User user = (User) o;
-    return id != null && id.equals(user.id);
+    if (this == o) {
+      return true;
+    }
+
+    if (!(o instanceof Product product)) {
+      return false;
+    }
+
+    return id != null && id.equals(product.id);
   }
 
   @Override

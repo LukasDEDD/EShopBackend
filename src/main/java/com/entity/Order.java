@@ -1,41 +1,57 @@
 package com.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long id;
+  private Long id;
 
-  User user;
-  List<OrderItem> items;
-  OrderStatus status;
-  BigDecimal totalPrice;
-  LocalDateTime createdAt;
-  Integer quantity;
-  BigDecimal unitPrice;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
+
+  @OneToMany(
+    mappedBy = "order",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+  )
+  private List<OrderItem> items = new ArrayList<>();
+
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private OrderStatus status;
+
+  @Column(nullable = false)
+  private BigDecimal totalPrice;
+
+  @Column(nullable = false)
+  private LocalDateTime createdAt;
 
   public Order() {
   }
 
-  public Order(Long id, User user, List<OrderItem> items, OrderStatus status, BigDecimal totalPrice, LocalDateTime createdAt, Integer quantity, BigDecimal unitPrice) {
+  public Order(Long id,
+               User user,
+               List<OrderItem> items,
+               OrderStatus status,
+               BigDecimal totalPrice,
+               LocalDateTime createdAt) {
+
     this.id = id;
     this.user = user;
     this.items = items;
     this.status = status;
     this.totalPrice = totalPrice;
     this.createdAt = createdAt;
-    this.quantity = quantity;
-    this.unitPrice = unitPrice;
   }
 
   public Long getId() {
@@ -71,8 +87,7 @@ public class Order {
   }
 
   public BigDecimal getTotalPrice() {
-
-    return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    return totalPrice;
   }
 
   public void setTotalPrice(BigDecimal totalPrice) {
@@ -89,10 +104,15 @@ public class Order {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof User)) return false;
-    User user = (User) o;
-    return id != null && id.equals(user.id);
+    if (this == o) {
+      return true;
+    }
+
+    if (!(o instanceof Order order)) {
+      return false;
+    }
+
+    return id != null && id.equals(order.id);
   }
 
   @Override
@@ -109,8 +129,6 @@ public class Order {
       ", status=" + status +
       ", totalPrice=" + totalPrice +
       ", createdAt=" + createdAt +
-      ", quantity=" + quantity +
-      ", unitPrice=" + unitPrice +
       '}';
   }
 }

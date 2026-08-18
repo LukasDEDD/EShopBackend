@@ -5,11 +5,12 @@ import com.entity.Order;
 import com.entity.OrderStatus;
 import com.exceptions.BusinessLogicException;
 import com.exceptions.EntityNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.repositories.jpa.CartJpaRepository;
 import com.repositories.jpa.OrderJpaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class OrderService {
         )
       );
 
-    if (cart.getItems().isEmpty()) {
+    if (cart.getItems() == null || cart.getItems().isEmpty()) {
       throw new BusinessLogicException(
         "Cannot checkout an empty cart!"
       );
@@ -85,6 +86,9 @@ public class OrderService {
     Order savedOrder = orderJpaRepository.save(order);
 
     cart.getItems().clear();
+    cart.setTotalPrice(BigDecimal.ZERO);
+    cart.setUpdatedAt(LocalDateTime.now());
+
     cartJpaRepository.save(cart);
 
     return savedOrder;

@@ -1,118 +1,102 @@
 package com.entity;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 
 @Entity
-
+@Table(name = "carts")
 public class Cart {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long id;
+  private Long id;
 
-  User user;
-  List<CartItem> items;
-  BigDecimal totalPrice;
-  LocalDateTime updatedAt;
-  Integer quantity;
-  BigDecimal unitPrice;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
+
+  @OneToMany(
+    mappedBy = "cart",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+  )
+  private List<CartItem> items = new ArrayList<>();
+
+  private BigDecimal totalPrice;
+
+  private LocalDateTime updatedAt;
 
   public Cart() {
   }
 
-  public Cart(Long id, User user, List<CartItem> items, BigDecimal totalPrice, LocalDateTime updatedAt, Integer quantity, BigDecimal unitPrice) {
+  public Cart(Long id,
+              User user,
+              List<CartItem> items,
+              BigDecimal totalPrice,
+              LocalDateTime updatedAt) {
+
     this.id = id;
     this.user = user;
     this.items = items;
     this.totalPrice = totalPrice;
     this.updatedAt = updatedAt;
-    this.quantity = quantity;
-    this.unitPrice = unitPrice;
   }
 
   public Long getId() {
-
     return id;
   }
 
   public void setId(Long id) {
-
     this.id = id;
   }
 
   public User getUser() {
-
     return user;
   }
 
   public void setUser(User user) {
-
     this.user = user;
   }
 
   public List<CartItem> getItems() {
-
     return items;
   }
 
   public void setItems(List<CartItem> items) {
-
     this.items = items;
   }
 
   public BigDecimal getTotalPrice() {
-
-    return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    return totalPrice;
   }
 
   public void setTotalPrice(BigDecimal totalPrice) {
-
     this.totalPrice = totalPrice;
   }
 
   public LocalDateTime getUpdatedAt() {
-
     return updatedAt;
   }
 
   public void setUpdatedAt(LocalDateTime updatedAt) {
-
     this.updatedAt = updatedAt;
-  }
-
-  public Integer getQuantity() {
-
-    return quantity;
-  }
-
-  public void setQuantity(Integer quantity) {
-
-    this.quantity = quantity;
-  }
-
-  public BigDecimal getUnitPrice() {
-
-    return unitPrice;
-  }
-
-  public void setUnitPrice(BigDecimal unitPrice) {
-
-    this.unitPrice = unitPrice;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof User)) return false;
-    User user = (User) o;
-    return id != null && id.equals(user.id);
+    if (this == o) {
+      return true;
+    }
+
+    if (!(o instanceof Cart cart)) {
+      return false;
+    }
+
+    return id != null && id.equals(cart.id);
   }
 
   @Override
@@ -128,8 +112,6 @@ public class Cart {
       ", items=" + items +
       ", totalPrice=" + totalPrice +
       ", updatedAt=" + updatedAt +
-      ", quantity=" + quantity +
-      ", unitPrice=" + unitPrice +
       '}';
   }
 }

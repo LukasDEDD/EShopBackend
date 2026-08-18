@@ -6,10 +6,12 @@ import com.exceptions.EntityNotFoundException;
 import com.entity.Cart;
 import com.entity.Order;
 import com.services.OrderService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class ConsoleController {
 
   private final OrderService orderService;

@@ -1,33 +1,46 @@
 package com.entity;
 
-import java.math.BigDecimal;
 import jakarta.persistence.*;
 
-
-
+import java.math.BigDecimal;
 
 @Entity
+@Table(name = "cart_items")
 public class CartItem {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long id;
+  private Long id;
 
-  Long cartId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "cart_id", nullable = false)
+  private Cart cart;
 
-  @ManyToOne
-  Product product;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "product_id", nullable = false)
+  private Product product;
 
-  Integer quantity;
-  BigDecimal unitPrice;
-  BigDecimal totalPrice;
+  @Column(nullable = false)
+  private Integer quantity;
+
+  @Column(nullable = false)
+  private BigDecimal unitPrice;
+
+  @Column(nullable = false)
+  private BigDecimal totalPrice;
 
   public CartItem() {
   }
 
-  public CartItem(Long id, Long cartId, Product product, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
+  public CartItem(Long id,
+                  Cart cart,
+                  Product product,
+                  Integer quantity,
+                  BigDecimal unitPrice,
+                  BigDecimal totalPrice) {
+
     this.id = id;
-    this.cartId = cartId;
+    this.cart = cart;
     this.product = product;
     this.quantity = quantity;
     this.unitPrice = unitPrice;
@@ -40,6 +53,14 @@ public class CartItem {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public Cart getCart() {
+    return cart;
+  }
+
+  public void setCart(Cart cart) {
+    this.cart = cart;
   }
 
   public Product getProduct() {
@@ -67,27 +88,24 @@ public class CartItem {
   }
 
   public BigDecimal getTotalPrice() {
-
-    return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    return totalPrice;
   }
 
   public void setTotalPrice(BigDecimal totalPrice) {
     this.totalPrice = totalPrice;
   }
-  public Long getCartId() {
-    return cartId;
-  }
-
-  public void setCartId(Long cartId) {
-    this.cartId = cartId;
-  }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof User)) return false;
-    User user = (User) o;
-    return id != null && id.equals(user.id);
+    if (this == o) {
+      return true;
+    }
+
+    if (!(o instanceof CartItem cartItem)) {
+      return false;
+    }
+
+    return id != null && id.equals(cartItem.id);
   }
 
   @Override
@@ -99,6 +117,7 @@ public class CartItem {
   public String toString() {
     return "CartItem{" +
       "id=" + id +
+      ", cart=" + cart +
       ", product=" + product +
       ", quantity=" + quantity +
       ", unitPrice=" + unitPrice +

@@ -178,8 +178,7 @@ void getAllOrder_returnListFromRepository() {
 
     Cart mockCart = new Cart();
     mockCart.setId(cartId);
-    mockCart.setQuantity(1);
-    mockCart.setUnitPrice(new BigDecimal("1500.0"));
+    mockCart.setTotalPrice(new BigDecimal("1500.0"));
 
 
     List<CartItem> items = new ArrayList<>();
