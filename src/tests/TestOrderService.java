@@ -44,7 +44,7 @@ void getAllOrder_returnListFromRepository() {
 
    when(orderRepository.findAll()).thenReturn(mockOrder);
 
-   List<Order> result = orderService.getAllOrder();
+   List<Order> result = orderService.getAllOrders();
 
    assertEquals(1, result.size());
    verify(orderRepository).findAll();
@@ -59,7 +59,7 @@ void getAllOrder_returnListFromRepository() {
 
     when(cartRepository.findAll()).thenReturn(mockCart);
 
-    List<Cart> result = orderService.getAllFromCart();
+    List<Cart> result = orderService.getAllCarts();
 
     assertEquals(1, result.size());
     verify(cartRepository).findAll();
