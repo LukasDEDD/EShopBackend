@@ -35,7 +35,6 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and Test
-        working-directory: ./EShopBackend
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/EShopBackend
           SPRING_DATASOURCE_USERNAME: ${{ secrets.POSTGRES_USER }}
