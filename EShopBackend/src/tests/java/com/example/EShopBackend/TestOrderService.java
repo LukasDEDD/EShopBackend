@@ -1,17 +1,18 @@
 package java.com.example.EShopBackend;
 
-import com.exceptions.EntityNotFoundException;
-import com.entity.Cart;
-import com.entity.CartItem;
-import com.entity.Order;
+import com.example.entity.OrderStatus;
+import com.example.exceptions.EntityNotFoundException;
+import com.example.entity.Cart;
+import com.example.entity.CartItem;
+import com.example.entity.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.repositories.CartRepository;
-import com.repositories.OrderRepository;
-import com.services.OrderService;
+import com.example.repositories.CartRepository;
+import com.example.repositories.OrderRepository;
+import com.example.services.OrderService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -194,7 +195,7 @@ void getAllOrder_returnListFromRepository() {
 
     assertNotNull(result);
 
-    assertEquals(com.entity.OrderStatus.CREATED, result.getStatus());
+    assertEquals(OrderStatus.CREATED, result.getStatus());
     assertTrue(mockCart.getItems().isEmpty(), "The Cart must be empty");
 
     verify(orderRepository).save(any(Order.class));
