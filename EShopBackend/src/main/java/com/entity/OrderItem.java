@@ -1,5 +1,6 @@
 package com.entity;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
+@SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 @Table(name = "order_items")
 public class OrderItem {
 

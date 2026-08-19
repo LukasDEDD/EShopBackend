@@ -4,8 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.repositories.Repository;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +31,12 @@ public abstract class AbstractFileRepository<T> implements Repository<T> {
   }
 
   protected List<T> loadAll() {
-    File file = new File(filePath);
-    if (!file.exists()) return new ArrayList<>();
-    try (Reader reader = new FileReader(file)) {
+    Path path = Paths.get(filePath);
+    if (!Files.exists(path)) {
+      return new ArrayList<>();
+    }
+
+    try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
       List<T> data = gson.fromJson(reader, listType);
       return data != null ? data : new ArrayList<>();
     } catch (IOException e) {
@@ -36,7 +45,9 @@ public abstract class AbstractFileRepository<T> implements Repository<T> {
   }
 
   protected void saveAll(List<T> entities) {
-    try (Writer writer = new FileWriter(filePath)) {
+    Path path = Paths.get(filePath);
+
+    try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
       gson.toJson(entities, writer);
     } catch (IOException e) {
       e.printStackTrace();
@@ -54,7 +65,6 @@ public abstract class AbstractFileRepository<T> implements Repository<T> {
     all.add(entity);
     saveAll(all);
   }
-
 
   protected abstract Long getEntityId(T entity);
 }

@@ -1,10 +1,12 @@
 package com.entity;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
 @Entity
+@SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 @Table(name = "cart_items")
 public class CartItem {
 

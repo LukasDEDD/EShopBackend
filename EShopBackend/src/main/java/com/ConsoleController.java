@@ -8,6 +8,7 @@ import com.entity.Order;
 import com.services.OrderService;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ public class ConsoleController {
 
   private final OrderService orderService;
 
-  private final Scanner scanner = new Scanner(System.in);
+  private final Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
 
   public ConsoleController(OrderService orderService) {
     this.orderService = orderService;
