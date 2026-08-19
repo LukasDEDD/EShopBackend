@@ -58,11 +58,11 @@ jobs:
 
       - name: Build Docker image
         working-directory: ./EShopBackend
-        run: docker build -t EShopBackend-app .
+        run: docker build -t eshopbackend-app .
 
       - name: Push Docker image to Docker Hub
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         working-directory: ./EShopBackend
         run: |
-          docker tag EShopBackend-app ${{ secrets.DOCKERHUB_USERNAME }}/EShopBackend-app:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/EShopBackend-app:latest
+          docker tag eshopbackend-app ${{ secrets.DOCKERHUB_USERNAME }}/eshopbackend-app:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/eshopbackend-app:latest
